@@ -1,13 +1,14 @@
 name: Publish Brush model to Replicate
 
-# Run on every push to main that touches the model, or manually from the Actions tab
+# Run on every push to main, or manually from the Actions tab
 on:
   workflow_dispatch: {}
   push:
     branches: [main]
     paths:
-      - "replicate_model/**"
-      - ".github/workflows/publish-replicate.yml"
+      - "cog.yaml"
+      - "predict.py"
+      - ".github/workflows/publish.yml"
 
 jobs:
   publish:
@@ -42,7 +43,6 @@ jobs:
           echo "$REPLICATE_API_TOKEN" | cog login --token-stdin
 
       - name: Build and push model
-        working-directory: replicate_model
         env:
           # Target model — fixed to your Replicate username
           REPLICATE_MODEL: "kmollo/splatfastk1-brush"
