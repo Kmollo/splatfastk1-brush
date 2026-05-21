@@ -27,8 +27,12 @@ jobs:
           df -h
 
       - name: Install cog
+        # Pinned to v0.13.7 — the latest release that still supports the
+        # classic Predictor.predict() API and 'predict:' field in cog.yaml.
+        # Newer cog (v0.20+) requires a different schema we'd need to rewrite for.
         run: |
-          sudo curl -o /usr/local/bin/cog -L "https://github.com/replicate/cog/releases/latest/download/cog_$(uname -s)_$(uname -m)"
+          COG_VERSION="v0.13.7"
+          sudo curl -fL -o /usr/local/bin/cog "https://github.com/replicate/cog/releases/download/${COG_VERSION}/cog_$(uname -s)_$(uname -m)"
           sudo chmod +x /usr/local/bin/cog
           cog --version
 
